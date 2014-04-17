@@ -52,5 +52,7 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-# Directories
+# Added by Dharmit
 flask/
+*.db
+db_repository
