@@ -1,3 +1,5 @@
+# This is the configuration file for the webapp
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 

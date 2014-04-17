@@ -1,3 +1,5 @@
+# Database models are defined here.
+
 from app import db
 
 ROLE_USER = 0
