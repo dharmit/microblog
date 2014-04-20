@@ -56,3 +56,4 @@ docs/_build/
 flask/
 *.db
 db_repository
+tmp

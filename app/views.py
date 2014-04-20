@@ -8,11 +8,10 @@ from models import User, ROLE_USER, ROLE_ADMIN
 
 @app.route('/')
 @app.route('/index')
-@app.route('/index.html')
-@app.route('/home')
+@login_required
 def index():
     #return "Hello, World"
-    user = {"nickname": "Python"}
+    user = g.user
     posts = [
             {
                 'author': {'nickname': 'Komal'},
@@ -29,13 +28,13 @@ def index():
             #posts = posts)
 
 @app.route('/login', methods = ['GET', 'POST'])
-@lm.loginhandler
+@oid.loginhandler
 def login():
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        sesison['remember_me'] = form.remember_me.data
+        session['remember_me'] = form.remember_me.data
         return oid.try_login(form.openid.data, ask_for = ['nickname', 'email'])
         #flash('Login requested for OpenID="' + form.openid.data + '", \
         #      remember_me=' + str(form.remember_me.data))
@@ -56,7 +55,7 @@ def after_login(resp):
         return redirect(url_for('login'))
     user = User.query.filter_by(email = resp.email).first()
     if user is None:
-        nickname = resp.Nickname
+        nickname = resp.nickname
         if nickname is None or nickname == '':
             nickname = resp.email.split('@')[0]
         user = User(nickname = nickname, email = resp.email, role = ROLE_USER)
