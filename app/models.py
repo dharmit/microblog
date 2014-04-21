@@ -24,6 +24,10 @@ class User(db.Model):
     def get_id(self):
         return unicode(self.id)
 
+    def avatar(self, size):
+        return "http://www.gravatar.com/avatar/" + \
+                md5(self.email) + "?d=mm&s=" + str(size)
+
     def __repr__(self):
         return '<User %r>' % (self.nickname)
 
