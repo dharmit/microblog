@@ -76,3 +76,19 @@ def after_login(resp):
 @app.before_request
 def before_request():
     g.user = current_user
+
+@app.route('/usr/<nickname>')
+@login_required
+def user(nickanme):
+    user = User.query.filter_by(nickanme = nickname).first()
+    if user = None:
+        flash('User' + nickname + 'not found')
+        return redirect(url_for('index'))
+    posts = [
+            {'author': user, 'body': 'Test Post #1'},
+            {'author': user, 'body': 'Test Post #2'}
+            ]
+    return render_template('user.html',
+                          user = user
+                          posts = posts
+                          )
