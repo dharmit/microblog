@@ -16,7 +16,7 @@ class EditForm(Form):
         self.original_nickname = original_nickname
 
     def validate(self):
-        if not Form.validate(selff):
+        if not Form.validate(self):
             return False
         if self.nickname.data == self.original_nickname:
             return True
