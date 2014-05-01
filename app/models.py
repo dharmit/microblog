@@ -67,8 +67,13 @@ class User(db.Model):
             self.followed.remove(user)
             return self
 
-    def is_following(self. user):
+    def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        return Post.quert.join(followers, (followers.c.followed_id == \
+            Post.user_id).filter(followers.c.follower_id == \
+                self.id).order_by(Post.timestamp.desc()))
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
