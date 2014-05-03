@@ -21,7 +21,7 @@ def index(page = 1):
         return redirect(url_for('index'))
 
     #user = g.user
-    posts = g.user.followed_posts().all()
+    posts = g.user.followed_posts().paginate(1, 3, False).items
     return render_template("index.html",
             title = "Home",
             form = form,
