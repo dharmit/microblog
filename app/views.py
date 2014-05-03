@@ -9,12 +9,10 @@ from datetime import datetime
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
+@app.route('/index/<int:page>', methods = ['GET', 'POST'])
 @login_required
-def index():
-    #return "Hello, World"
-    print "Setting form = PostForm()...."
+def index(page = 1):
     form = PostForm()       
-    print type(form)
     if form.validate_on_submit():
         post = Post(body = form.post.data, timestamp = datetime.utcnow(), author = g.user)
         db.session.add(post)
@@ -93,10 +91,12 @@ def user(nickname):
     if user == None:
         flash('User' + nickname + 'not found')
         return redirect(url_for('index'))
-    posts = [
-            {'author': user, 'body': 'Test Post #1'},
-            {'author': user, 'body': 'Test Post #2'}
-            ]
+#    posts = [
+#            {'author': user, 'body': 'Test Post #1'},
+#            {'author': user, 'body': 'Test Post #2'}
+#            ]
+    # Prints users own posts in the profile page. Sorted by latest post first.
+    posts = g.user.posts.order_by(Post.timestamp.desc())
     return render_template('user.html',
                           user = user,
                           posts = posts
