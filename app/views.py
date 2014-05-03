@@ -6,6 +6,7 @@ from flask.ext.login import login_user, logout_user, current_user, \
         login_required
 from models import User, ROLE_USER, ROLE_ADMIN, Post
 from datetime import datetime
+from config import POSTS_PER_PAGE
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
@@ -21,7 +22,7 @@ def index(page = 1):
         return redirect(url_for('index'))
 
     #user = g.user
-    posts = g.user.followed_posts().paginate(1, 3, False).items
+    posts = g.user.followed_posts().paginate(page, POSTS_PER_PAGE, False)
     return render_template("index.html",
             title = "Home",
             form = form,
