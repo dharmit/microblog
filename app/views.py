@@ -86,8 +86,9 @@ def before_request():
         db.session.commit()
 
 @app.route('/user/<nickname>')
+@app.route('/user/<nickname>/<int:page>')
 @login_required
-def user(nickname):
+def user(nickname, page = 1):
     user = User.query.filter_by(nickname = nickname).first()
     if user == None:
         flash('User' + nickname + 'not found')
@@ -97,11 +98,11 @@ def user(nickname):
 #            {'author': user, 'body': 'Test Post #2'}
 #            ]
     # Prints users own posts in the profile page. Sorted by latest post first.
-    posts = g.user.posts.order_by(Post.timestamp.desc())
+    #posts = g.user.posts.order_by(Post.timestamp.desc())
+    posts = user.posts.paginate(page, POSTS_PER_PAGE, False)
     return render_template('user.html',
                           user = user,
-                          posts = posts
-                          )
+                          posts = posts)
 
 @app.route('/edit', methods = ['GET', 'POST'])
 @login_required
