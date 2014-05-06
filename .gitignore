@@ -57,4 +57,3 @@ flask/
 *.db
 db_repository
 tmp
-config.py

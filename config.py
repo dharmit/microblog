@@ -18,14 +18,16 @@ OPENID_PROVIDERS = [
 
 # mail server settings
 
-MAIL_SERVER = 'localhost'
-MAIL_PORT = 25
-MAIL_USERNAME = None
-MAIL_PASSWORD = None
+MAIL_SERVER = 'smtp.googlemail.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_USERNAME = 'username@gmail.com'
+MAIL_PASSWORD = 'password'
 
 # administrator list
 
-ADMINS = ['dharmit.dev@gmail.com']
+ADMINS = ['some_username@gmail.com']
 
 #pagination
 POSTS_PER_PAGE = 3
